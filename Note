@@ -15,3 +15,16 @@ Replace timestamp_in_ms with the current timestamp in milliseconds
 and X with the philosopher number.
 
 Philo 1 Philo N Philo 2 Philo N-1 Philo 3 Philo N-2 etc.
+
+
+Parsing :
+Accepter uniquement des nombres, taille d un int
+(comme push swap)
+
+	tmp[tln] = noptozero(tmp[tln]);
+	len = ft_strlen(tmp[tln]);
+	j = ft_atol(tmp[tln]);
+	if ((len > 11 || !len) && (j > 2147483647 || j < -2147483648))
+		ft_free_all(tmp, lst, NULL, 1);
+	if ((len > 11 || !len) || (j > 2147483647 || j < -2147483648))
+		ft_free_all(tmp, lst, NULL, 1);
