@@ -6,11 +6,11 @@
 #    By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/18 01:25:54 by mpierrot          #+#    #+#              #
-#    Updated: 2024/05/18 22:00:58 by mpierrot         ###   ########.fr        #
+#    Updated: 2024/05/22 05:04:20 by mpierrot         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC_F	= 	main.c parsing.c lib_func_recode.c
+SRC_F	= 	main.c parsing.c lib_func_recode.c am_i_dead.c
 SRC_D	= src/
 OBJ_D = objs
 OBJ_F = $(SRC_F:%.c=$(OBJ_D)/%.o)

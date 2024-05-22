@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:22:48 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/18 21:58:06 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/22 06:30:22 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ static char	*noptozero(char *tmp)
 {
 	size_t	i;
 	size_t	a;
-	size_t	len;
 
-	len = ft_strlen(tmp);
 	i = 0;
 	a = 0;
 	if ((tmp[0] == 43 || tmp[0] == 45) && tmp[1] && tmp[1] != ' ')
@@ -64,43 +62,62 @@ static int	ft_check_numbers(char **args)
 	return (1);
 }
 
-static t_philo	fill_my_philo_args(long *j)
+static t_data	fill_my_philo_args(long *j)
 {
-	t_philo	philo;
+	t_data	data;
+	int		i;
 
-	philo.philo_nb = j[1];
-	philo.ttdie = j[2];
-	philo.tteat = j[3];
-	philo.ttsleep = j[4];
-	philo.notemeat = j[5];
-	return (philo);
+	i = 0;
+	data.philo_nb = j[1];
+	data.ttdie = j[2];
+	data.tteat = j[3];
+	data.ttsleep = j[4];
+	data.hm_eat_to_end = j[5];
+	data.phil = malloc(sizeof(t_philo *) * data.philo_nb);
+	data.forks = malloc(sizeof(pthread_mutex_t) * data.philo_nb);
+	while (i < data.philo_nb)
+	{
+		data.phil[i] = (t_philo *)malloc(sizeof(t_philo));
+		if (!data.phil[i])
+		{
+			data.is_args_ok = -1;
+			return (data);
+		}
+		data.phil[i]->id = i + 1;
+		data.phil[i]->left_fork = &data.forks[i];
+		data.phil[i]->up = &data;
+		data.phil[i]->meal_progress = 0;
+		i++;
+	}
+	data.phil[i] = NULL;
+	return (data);
 }
 
-t_philo	parsing_args(int argc, char **arg)
+t_data	parsing_args(int argc, char **arg)
 {
 	int		i;
 	long	j[6];
 	size_t	len;
-	t_philo	philo;
+	t_data	data;
 
-	philo.is_args_ok = 0;
+	data.is_args_ok = 0;
 	if (ft_check_numbers(arg) == -1)
-		philo.is_args_ok = -1;
+		data.is_args_ok = -1;
 	i = 0;
-	while (arg[i] && philo.is_args_ok == 0)
+	while (arg[i] && data.is_args_ok == 0)
 	{
 		arg[i] = noptozero(arg[i]);
 		len = ft_strlen(arg[i]);
 		j[i] = ft_atol(arg[i]);
 		if ((len > 11 || !len) && (j[i] > 2147483647 || j[i] < -2147483648))
-			return (philo);
+			return (data);
 		if ((len > 11 || !len) || (j[i] > 2147483647 || j[i] < -2147483648))
-			return (philo);
+			return (data);
 		i++;
 	}
-	if (philo.is_args_ok == -1)
-		return (philo);
+	if (data.is_args_ok == -1)
+		return (data);
 	if (argc == 5)
-		j[5] = 2147483646;
+		j[5] = -1;
 	return (fill_my_philo_args(j));
 }
