@@ -1,30 +1,34 @@
 Mandatory part
 
-number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
+				number_of_philosophers time_to_die time_to_eat time_to_sleep[number_of_times_each_philosopher_must_eat]
 
-./philo nombre tps_die tps_eat tps_sleep (nb_*_eat)
+					./
+			philo nombre tps *die tps_eat tps_sleep(nb *\*\_eat)
 
- Philosopher number 1 sits next to philosopher number number_of_philosophers. 
- Any other philosopher number N sits between philosopher number N - 1 and philoso- pher number N + 1.
+				Philosopher number 1 sits next to philosopher number number_of_philosophers.Any other philosopher number N sits between philosopher number N
+		- 1 and
+	philoso - pher number N +
+		1.
 
 ◦ timestamp_in_ms X has taken a fork ◦ timestamp_in_ms X is eating
 ◦ timestamp_in_ms X is sleeping
 ◦ timestamp_in_ms X is thinking
-◦ timestamp_in_ms X died
-Replace timestamp_in_ms with the current timestamp in milliseconds
-and X with the philosopher number.
+◦ timestamp_in_ms X died Replace timestamp_in_ms with the current timestamp in milliseconds and X with the philosopher number.
 
-Philo 1 Philo N Philo 2 Philo N-1 Philo 3 Philo N-2 etc.
+		Philo 1 Philo N Philo 2 Philo N
+		- 1 Philo 3 Philo N -
+		2 etc.
 
+		Parsing : Accepter uniquement des nombres,
+	taille d un int(comme push swap)
 
-Parsing :
-Accepter uniquement des nombres, taille d un int
-(comme push swap)
+		tmp[tln] = noptozero(tmp[tln]);
+len = ft_strlen(tmp[tln]);
+j = ft_atol(tmp[tln]);
+if	((len > 11 || !len) && (j > 2147483647 || j < -2147483648))
+	ft_free_all(tmp, lst, NULL, 1);
+if	((len > 11 || !len) || (j > 2147483647 || j < -2147483648))
+	ft_free_all(tmp, lst, NULL, 1);
 
-	tmp[tln] = noptozero(tmp[tln]);
-	len = ft_strlen(tmp[tln]);
-	j = ft_atol(tmp[tln]);
-	if ((len > 11 || !len) && (j > 2147483647 || j < -2147483648))
-		ft_free_all(tmp, lst, NULL, 1);
-	if ((len > 11 || !len) || (j > 2147483647 || j < -2147483648))
-		ft_free_all(tmp, lst, NULL, 1);
+separer le monitoring et la fin lancer le monitoring qui va s executer en boucle sauf si pb,
+	ducoup lancer fin qui close tout ?

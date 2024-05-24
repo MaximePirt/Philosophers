@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:23:19 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/22 06:56:37 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/24 00:52:40 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@ void	*function(void *arg)
 	(void)arg;
 	philo = (t_philo *)arg;
 	printf("Me voila et voila mon id %d:\n", philo->id);
-	while (philo->up->hm_eat_to_end != philo->meal_progress)
+	while (philo->up->hm_eat_to_end != philo->meal_progress
+		&& !(philo->up->terminate))
 	{
+		fprintf(stderr, "Am i dead? [%d]", philo->up->is_dead);
+		if (philo->up->is_dead == 1)
+			break ;
 		pthread_mutex_lock(philo->left_fork);
 		pthread_mutex_lock(&philo->right_fork);
 		philo->meal_progress++;
@@ -50,6 +54,47 @@ int	ft_usleep(size_t milliseconds)
 	return (0);
 }
 
+void	*monitoring(void *args)
+{
+	t_data	*data;
+	int		current_time;
+	int		i;
+	int		j;
+
+	data = (t_data *)args;
+	j = 0;
+	while (j != 1)
+	{
+		i = 0;
+		while (j != 1 && i < data->philo_nb)
+		{
+			current_time = get_current_time();
+			fprintf(stderr, "ttdie : [%zu] and the minus : [%d]\n\n",
+				data->ttdie, current_time);
+			if (current_time - data->phil[i]->last_meal >= data->ttdie)
+				j = -1;
+			i++;
+		}
+	}
+	// end the func
+	fprintf(stderr, "end\n");
+	j = 0;
+	while (j < data->philo_nb)
+	{
+		data->phil[j]->up->is_dead = 1;
+		fprintf(stderr, "joining thread num %d\n", j);
+		if (pthread_join(data->phil[j]->philo_thread, NULL) != 0)
+		{
+			ft_putstr_fd("A problem occur with thread joining", 2);
+			return (NULL);
+		}
+		fprintf(stderr, "AHAHAHAHHAHAHAHAH\n");
+		fprintf(stderr, "%d Is dead\n", data->phil[j]->id);
+		j++;
+	}
+	return (NULL);
+}
+
 int	go_threading(t_data *data)
 {
 	int	i;
@@ -66,34 +111,8 @@ int	go_threading(t_data *data)
 		}
 		i++;
 	}
+	pthread_create(&data->monitor, NULL, &monitoring, data);
 	ft_usleep(10);
-	i = 1;
-	while (i < data->philo_nb)
-	{
-		if (pthread_join(data->phil[i]->philo_thread, NULL) != 0)
-		{
-			ft_putstr_fd("A problem occur with thread joining", 2);
-			return (-1);
-		}
-		fprintf(stderr, "AHAHAHAHHAHAHAHAH\n");
-		i++;
-	}
-	// while (1)
-	// {
-	// 	fprintf(stderr, "AHAHAHAHHAHAHAHAH\n");
-	// 	i = 0;
-	// 	while (i < data.philo_nb)
-	// 	{
-	// 		fprintf(stderr, "actual time %zu and phil time %zu\n",
-	// 			get_current_time(), data.phil[i]->last_meal);
-	// 		if (get_current_time() - data.phil[i]->last_meal >= data.ttdie)
-	// 		{
-	// 			fprintf(stderr, "%d Is dead\n", data.phil[i]->id);
-	// 			// destroy ;
-	// 		}
-	// 		i++;
-	// 	}
-	// }
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:22:48 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/22 06:30:22 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:44:21 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static t_data	fill_my_philo_args(long *j)
 	data.tteat = j[3];
 	data.ttsleep = j[4];
 	data.hm_eat_to_end = j[5];
+	data.terminate = 1;
 	data.phil = malloc(sizeof(t_philo *) * data.philo_nb);
 	data.forks = malloc(sizeof(pthread_mutex_t) * data.philo_nb);
 	while (i < data.philo_nb)

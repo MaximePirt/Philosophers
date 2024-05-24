@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:22:57 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/22 05:28:54 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/22 22:45:19 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ typedef struct s_data
 	int					ttsleep;
 	int					hm_eat_to_end;
 	int					is_args_ok;
+	int					terminate;
 	pthread_mutex_t		dead_lock;
-	pthread_mutex_t		print_lock;
 	pthread_mutex_t		print;
+	pthread_t			monitor;
 	t_bool				is_dead;
 	t_philo				**phil;
 	pthread_mutex_t		*forks;
