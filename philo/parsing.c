@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:22:48 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/22 20:44:21 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/25 02:05:26 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,38 +60,6 @@ static int	ft_check_numbers(char **args)
 		i++;
 	}
 	return (1);
-}
-
-static t_data	fill_my_philo_args(long *j)
-{
-	t_data	data;
-	int		i;
-
-	i = 0;
-	data.philo_nb = j[1];
-	data.ttdie = j[2];
-	data.tteat = j[3];
-	data.ttsleep = j[4];
-	data.hm_eat_to_end = j[5];
-	data.terminate = 1;
-	data.phil = malloc(sizeof(t_philo *) * data.philo_nb);
-	data.forks = malloc(sizeof(pthread_mutex_t) * data.philo_nb);
-	while (i < data.philo_nb)
-	{
-		data.phil[i] = (t_philo *)malloc(sizeof(t_philo));
-		if (!data.phil[i])
-		{
-			data.is_args_ok = -1;
-			return (data);
-		}
-		data.phil[i]->id = i + 1;
-		data.phil[i]->left_fork = &data.forks[i];
-		data.phil[i]->up = &data;
-		data.phil[i]->meal_progress = 0;
-		i++;
-	}
-	data.phil[i] = NULL;
-	return (data);
 }
 
 t_data	parsing_args(int argc, char **arg)

@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:22:57 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/22 22:45:19 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/25 06:04:11 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_data
 	int					hm_eat_to_end;
 	int					is_args_ok;
 	int					terminate;
+	size_t				starting_time;
 	pthread_mutex_t		dead_lock;
 	pthread_mutex_t		print;
 	pthread_t			monitor;
@@ -61,13 +62,29 @@ typedef struct s_data
 // parsing func
 t_data					parsing_args(int argc, char **args);
 
+// Init
+t_data					fill_my_philo_args(long *j);
+void					initiate_monitoring(t_data *data);
+void					end_thread(t_data *data);
+
+// announce
+void					telling(t_philo *philo, int sentence);
+
+// Monitoring and threads
+void					*threading(void *args);
+void					*monitoring(void *args);
+
 // lib func recode
 void					ft_putstr_fd(char *s, int fd);
 int						ft_check_only_string(char *res, char *c);
 size_t					ft_strlen(const char *str);
 long					ft_atol(const char *str);
 
-// time
+// am i dead
 size_t					get_current_time(void);
+int						check_time(t_data *data, int i);
+
+// end
+void					end_all(t_data *data);
 
 #endif
