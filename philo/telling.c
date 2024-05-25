@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 04:21:15 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/25 06:01:21 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:22:20 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,24 @@
 
 void	telling(t_philo *philo, int sentence)
 {
-	char	**tab;
 	size_t	current_time;
 
-	pthread_mutex_lock(&philo->up->print);
 	current_time = get_current_time();
-	tab = malloc(sizeof(char **) * 5);
-	tab[0] = "has taken a fork";
-	tab[1] = "is eating";
-	tab[2] = "is sleeping";
-	tab[3] = "is thinking";
-	tab[4] = "died";
-	fprintf(stderr, "%ld %d %s\n", current_time - philo->up->starting_time,
-		philo->id, tab[sentence]);
-	free(tab);
+	pthread_mutex_lock(&philo->up->print);
+	if (sentence == 0)
+		fprintf(stderr, "%ld %d has taken a fork\n ", current_time
+			- philo->up->starting_time, philo->id);
+	else if (sentence == 1)
+		fprintf(stderr, "%ld %d is eating\n ", current_time
+			- philo->up->starting_time, philo->id);
+	else if (sentence == 2)
+		fprintf(stderr, "%ld %d is sleeping\n ", current_time
+			- philo->up->starting_time, philo->id);
+	else if (sentence == 3)
+		fprintf(stderr, "%ld %d is thinking\n ", current_time
+			- philo->up->starting_time, philo->id);
+	else if (sentence == 4)
+		fprintf(stderr, "%ld %d died\n ", current_time
+			- philo->up->starting_time, philo->id);
 	pthread_mutex_unlock(&philo->up->print);
 }

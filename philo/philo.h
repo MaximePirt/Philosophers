@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:22:57 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/25 06:04:11 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/25 08:25:13 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ long					ft_atol(const char *str);
 // am i dead
 size_t					get_current_time(void);
 int						check_time(t_data *data, int i);
+int						need_to_quit(t_philo *philo);
 
 // end
 void					end_all(t_data *data);

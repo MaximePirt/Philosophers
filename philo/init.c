@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 02:04:53 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/25 06:12:13 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/25 13:53:29 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_data	fill_my_philo_args(long *j)
 	data.is_dead = 0;
 	data.phil = malloc(sizeof(t_philo *) * data.philo_nb);
 	data.forks = malloc(sizeof(pthread_mutex_t) * data.philo_nb);
+	pthread_mutex_init(&data.dead_lock, NULL);
+	pthread_mutex_init(&data.print, NULL);
 	while (i < data.philo_nb)
 	{
 		data.phil[i] = (t_philo *)malloc(sizeof(t_philo));
@@ -40,6 +42,7 @@ t_data	fill_my_philo_args(long *j)
 		data.phil[i]->left_fork = &data.forks[i];
 		data.phil[i]->up = &data;
 		data.phil[i]->meal_progress = 0;
+		data.phil[i]->last_meal = get_current_time();
 		i++;
 	}
 	data.phil[i] = NULL;
@@ -61,6 +64,7 @@ void	initiate_monitoring(t_data *data)
 	usleep(20);
 	pthread_create(&data->monitor, NULL, &monitoring, (void *)data);
 	usleep(20);
+	pthread_join(data->monitor, NULL);
 	return ;
 }
 
