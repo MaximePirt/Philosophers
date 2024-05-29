@@ -6,17 +6,17 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:40:00 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/18 20:45:19 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/29 00:17:42 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long	ft_atol(const char *str)
+long ft_atol(const char *str)
 {
-	long	i;
-	long	j;
-	long	z;
+	long i;
+	long j;
+	long z;
 
 	i = 0;
 	j = 1;
@@ -36,9 +36,9 @@ long	ft_atol(const char *str)
 	return (z);
 }
 
-size_t	ft_strlen(const char *str)
+size_t ft_strlen(const char *str)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 	while (str[i])
@@ -46,11 +46,11 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-int	ft_check_only_string(char *res, char *c)
+int ft_check_only_string(char *res, char *c)
 {
-	int		i;
-	int		j;
-	size_t	check;
+	int i;
+	int j;
+	size_t check;
 
 	check = 0;
 	j = 0;
@@ -72,16 +72,25 @@ int	ft_check_only_string(char *res, char *c)
 	return (1);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void ft_putstr_fd(char *s, int fd)
 {
-	size_t	i;
+	size_t i;
 
 	if (!s || !fd)
-		return ;
+		return;
 	i = 0;
 	while (s[i])
 	{
 		write(fd, &s[i], 1);
 		i++;
 	}
+}
+
+long long get_current_time(void)
+{
+	struct timeval time;
+
+	if (gettimeofday(&time, NULL) == -1)
+		ft_putstr_fd("gettimeofday error\n", 2);
+	return ((time.tv_sec) * 1000 + (time.tv_usec) / 1000);
 }
