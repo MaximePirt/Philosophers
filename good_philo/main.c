@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:50:41 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/29 04:23:38 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/31 01:09:19 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,22 @@
 
 void free_all(t_data *data)
 {
-	free(data->forks);
+	int i;
+
+	i = 0;
+	while (i < data->philo_nb)
+	{
+		pthread_mutex_destroy(&data->phil[i].forks->left_fork);
+		free(data->phil[i].forks);
+		i++;
+	}
+
 	free(data->phil);
 }
 
-void monitoring(t_data *data, pthread_t *threads)
+void end_monitoring(t_data *data, pthread_t *threads)
 {
 	int i;
-	// monitoring philo
-	while (1)
-	{
-		usleep(100);
-		i = 0;
-		while (i < data->philo_nb)
-		{
-			pthread_mutex_lock(&data->lock);
-			long long time = get_current_time();
-			// printf("soustraction : [%lld], ttd [%d]\n", (time - data->phil[i].last_meal), data->ttd);
-			if (time - data->phil[i].last_meal > data->ttd)
-			{
-				data->is_dead = 1;
-				printf("%d\n", data->is_dead);
-				pthread_mutex_unlock(&data->lock);
-				break;
-			}
-			pthread_mutex_unlock(&data->lock);
-			i++;
-		}
-		pthread_mutex_lock(&data->lock);
-		if (data->is_dead == 1)
-		{
-			printf("EHHH MORT\n");
-			pthread_mutex_unlock(&data->lock);
-			break;
-		}
-		pthread_mutex_unlock(&data->lock);
-	}
 
 	i = 0;
 	while (i < data->philo_nb)
@@ -58,6 +38,34 @@ void monitoring(t_data *data, pthread_t *threads)
 		i++;
 	}
 	free_all(data);
+}
+
+void monitoring(t_data *data, pthread_t *threads)
+{
+	int i;
+
+	while (1)
+	{
+		usleep(100);
+		i = 0;
+		while (i < data->philo_nb)
+		{
+			pthread_mutex_lock(&data->lock);
+			if (get_current_time() - data->phil[i].last_meal > data->ttd)
+			{
+				data->is_dead = 1;
+				if (data->phil[i].hm_eat != data->hm_mte)
+					printf("%lld %d is dead\n", (get_current_time() - data->starting_time), data->is_dead);
+				pthread_mutex_unlock(&data->lock);
+				break;
+			}
+			pthread_mutex_unlock(&data->lock);
+			i++;
+		}
+		if (am_i_dead(&data->phil[1]) == 1 || have_i_eat_enough(&data->phil[1]) == 1)
+			break;
+	}
+	end_monitoring(data, threads);
 	return;
 }
 
@@ -67,8 +75,11 @@ int main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 
-	if (!parsing_args(&data, argc, argv))
+	if ((argc < 5 || argc > 6) || !parsing_args(&data, argc, argv))
+	{
+		ft_putstr_fd("Error \n", 2);
 		return (1);
+	}
 
 	printf("starting_time: %lld\n", data.starting_time);
 	printf("philo_nb: %d\n", data.philo_nb);

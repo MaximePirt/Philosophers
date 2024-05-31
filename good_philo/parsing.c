@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maxou <maxou@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 23:22:48 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/29 00:15:43 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/30 14:50:27 by maxou            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static char *copy(char *tmp, size_t a, size_t i)
+static char	*copy(char *tmp, size_t a, size_t i)
 {
 	while (tmp[i])
 	{
@@ -24,10 +24,10 @@ static char *copy(char *tmp, size_t a, size_t i)
 	return (tmp);
 }
 
-static char *noptozero(char *tmp)
+static char	*noptozero(char *tmp)
 {
-	size_t i;
-	size_t a;
+	size_t	i;
+	size_t	a;
 
 	i = 0;
 	a = 0;
@@ -48,9 +48,9 @@ static char *noptozero(char *tmp)
 	return (tmp);
 }
 
-static int ft_check_numbers(char **args)
+static int	ft_check_numbers(char **args)
 {
-	size_t i;
+	size_t	i;
 
 	i = 1;
 	while (args[i])
@@ -62,11 +62,11 @@ static int ft_check_numbers(char **args)
 	return (1);
 }
 
-int parsing_args(t_data *data, int argc, char **arg)
+int	parsing_args(t_data *data, int argc, char **arg)
 {
-	int i;
-	long j[6];
-	size_t len;
+	int		i;
+	long	j[6];
+	size_t	len;
 
 	if (ft_check_numbers(arg) == -1)
 		return (0);
@@ -76,9 +76,10 @@ int parsing_args(t_data *data, int argc, char **arg)
 		arg[i] = noptozero(arg[i]);
 		len = ft_strlen(arg[i]);
 		j[i] = ft_atol(arg[i]);
-		if ((len > 11 || !len) && (j[i] > 2147483647 || j[i] < -2147483648))
+		if ((i == 1 && j[i] < 1) || (i == 1 && j[i] > 200))
 			return (0);
-		if ((len > 11 || !len) || (j[i] > 2147483647 || j[i] < -2147483648))
+		if ((i < 5 && i > 1) && \
+		(((len > 11 || !len) || j[i] > 2147483647) || j[i] == 0))
 			return (0);
 		i++;
 	}

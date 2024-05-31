@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:59:31 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/29 03:22:03 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/05/31 02:48:31 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ typedef struct s_data t_data;
 typedef struct s_fork
 {
 	int used;
-	void *left_fork;
-	void *right_fork;
+	pthread_mutex_t left_fork;
+	pthread_mutex_t *right_fork;
 } t_fork;
 
 typedef struct s_philo
@@ -35,6 +35,7 @@ typedef struct s_philo
 	int hm_eat;
 	int id;
 	t_data *up;
+	t_fork *forks;
 
 } t_philo;
 
@@ -47,7 +48,6 @@ typedef struct s_data
 	int tts;
 	int hm_mte;
 	t_philo *phil;
-	t_fork *forks;
 	pthread_mutex_t lock;
 	int is_dead;
 
@@ -65,6 +65,7 @@ void init_threads(t_data *data);
 void monitoring(t_data *data, pthread_t *threads);
 void *thread_phil(void *args);
 int am_i_dead(t_philo *philo);
+int have_i_eat_enough(t_philo *philo);
 
 // lib
 long ft_atol(const char *str);
