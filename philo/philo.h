@@ -50,6 +50,7 @@ typedef struct s_data
 	t_philo			*phil;
 	pthread_mutex_t	lock;
 	int				is_dead;
+	int 			is_terminated;
 
 }					t_data;
 

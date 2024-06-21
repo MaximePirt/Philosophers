@@ -30,12 +30,12 @@ void	which_unlock(t_philo *philo)
 {
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_unlock(&philo->forks->left_fork);
 		pthread_mutex_unlock(philo->forks->right_fork);
+		pthread_mutex_unlock(&philo->forks->left_fork);
 	}
 	else
 	{
-		pthread_mutex_unlock(philo->forks->right_fork);
 		pthread_mutex_unlock(&philo->forks->left_fork);
+		pthread_mutex_unlock(philo->forks->right_fork);
 	}
 }

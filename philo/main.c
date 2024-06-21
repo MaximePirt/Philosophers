@@ -39,42 +39,22 @@ void	end_monitoring(t_data *data, pthread_t *threads)
 	free_all(data);
 }
 
-int	monitoring_check(t_data *data, int i)
-{
-	pthread_mutex_lock(&data->lock);
-	if (get_current_time() - data->phil[i].last_meal > data->ttd)
-	{
-		data->is_dead = 1;
-		if (data->phil[i].hm_eat != data->hm_mte)
-			printf("%lld %d is dead\n",
-				(get_current_time() - data->starting_time), data->is_dead);
-		pthread_mutex_unlock(&data->lock);
-		return (1);
-	}
-	pthread_mutex_unlock(&data->lock);
-	return (0);
-}
-
 void	monitoring(t_data *data, pthread_t *threads)
 {
-	int	i;
+	int	stop;
+	int eat_enough;
 
 	while (1)
 	{
-		usleep(100);
-		i = 0;
-		while (i < data->philo_nb)
-		{
-			if (monitoring_check(data, i) == 1)
-				break ;
-			i++;
-		}
-		if (am_i_dead(&data->phil[1]) == 1
-			|| have_i_eat_enough(&data->phil[1]) == 1)
+		pthread_mutex_lock(&data->lock);
+		stop = data->is_dead;
+		eat_enough = data->is_terminated;
+		pthread_mutex_unlock(&data->lock);
+		if (stop == 1 || eat_enough == data->philo_nb)
 			break ;
 	}
+	printf("All philo are dead [%d], is terminate  [%d]\n",stop,  data->is_terminated);
 	end_monitoring(data, threads);
-	return ;
 }
 
 int	main(int argc, char **argv)
