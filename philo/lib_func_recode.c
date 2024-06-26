@@ -94,3 +94,17 @@ long long	get_current_time(void)
 		ft_putstr_fd("gettimeofday error\n", 2);
 	return ((time.tv_sec) * 1000 + (time.tv_usec) / 1000);
 }
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while ((s1[i] || s2[i]) && i < n)
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
+}

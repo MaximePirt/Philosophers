@@ -50,7 +50,7 @@ typedef struct s_data
 	t_philo			*phil;
 	pthread_mutex_t	lock;
 	int				is_dead;
-	int 			is_terminated;
+	int 			eat_enough;
 
 }					t_data;
 
@@ -63,14 +63,16 @@ int			init_memory(pthread_t **threads, t_data *data);
 void		init_threads(t_data *data);
 
 //lock and unlock
-void		which_lock(t_philo *philo);
+int			which_lock(t_philo *philo);
 void		which_unlock(t_philo *philo);
+void		take_forks(t_philo *philo);
 
 // Threads functions
 void		monitoring(t_data *data, pthread_t *threads);
 void		*thread_phil(void *args);
 int			am_i_dead(t_philo *philo);
 int			have_i_eat_enough(t_philo *philo);
+void		print_status(t_philo *philo, char *status);
 
 // lib
 long		ft_atol(const char *str);
@@ -78,5 +80,6 @@ size_t		ft_strlen(const char *str);
 int			ft_check_only_string(char *res, char *c);
 void		ft_putstr_fd(char *s, int fd);
 long long	get_current_time(void);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif

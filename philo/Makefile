@@ -30,7 +30,7 @@ all: $(NAME)
 
 
 $(NAME): $(OBJ_F) 
-	@$(CC) $(CFLAGS) $(OBJ_F) -o $(NAME)
+	@$(CC) $(CFLAGS)  $(OBJ_F) -o $(NAME)
 	@echo "$(CYAN)philo has been compiled successfully$(DEFCOLOR)"
 
 $(OBJ_D)/%.o: %.c

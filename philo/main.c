@@ -23,6 +23,7 @@ void	free_all(t_data *data)
 		free(data->phil[i].forks);
 		i++;
 	}
+	pthread_mutex_destroy(&data->lock);
 	free(data->phil);
 }
 
@@ -41,21 +42,25 @@ void	end_monitoring(t_data *data, pthread_t *threads)
 
 void	monitoring(t_data *data, pthread_t *threads)
 {
-	int	stop;
-	int eat_enough;
+	int stop;
 
-	while (1)
+	stop = 0;
+	while(1)
 	{
 		pthread_mutex_lock(&data->lock);
-		stop = data->is_dead;
-		eat_enough = data->is_terminated;
+		if (data->eat_enough == data->philo_nb || data->is_dead)
+			stop = 1;
 		pthread_mutex_unlock(&data->lock);
-		if (stop == 1 || eat_enough == data->philo_nb)
+		if (stop)
 			break ;
+		usleep(100);
 	}
-	printf("All philo are dead [%d], is terminate  [%d]\n",stop,  data->is_terminated);
+	pthread_mutex_lock(&data->lock);
+	printf("All philo are dead [%d], eat enough  [%d]\n",data->is_dead,  data->eat_enough);
+	pthread_mutex_unlock(&data->lock);
 	end_monitoring(data, threads);
 }
+
 
 int	main(int argc, char **argv)
 {
