@@ -21,6 +21,7 @@ void *fill_my_philo_args(t_data *data, long *args)
 	data->tts = args[4];
 	data->hm_mte = args[5];
 	data->is_dead = 0;
+    data->eat_enough = 0;
 	init_threads(data);
 	return (NULL);
 }
@@ -59,7 +60,7 @@ void init_threads(t_data *data)
 	pthread_mutex_init(&data->lock, NULL);
 	while (i < data->philo_nb)
 	{
-		data->phil[i].id = i;
+		data->phil[i].id = i + 1;
 		data->phil[i].hm_eat = 0;
 		data->phil[i].up = data;
 		data->phil[i].last_meal = get_current_time();

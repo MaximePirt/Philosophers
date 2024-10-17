@@ -24,6 +24,19 @@ int am_i_dead(t_philo *philo)
 	return (0);
 }
 
+int have_i_eat_enough(t_philo *philo)
+{
+//	pthread_mutex_lock(&philo->up->lock);
+	if (philo->hm_eat == philo->up->hm_mte)
+	{
+        philo->up->eat_enough++;
+		pthread_mutex_unlock(&philo->up->lock);
+		return (1);
+	}
+//	pthread_mutex_unlock(&philo->up->lock);
+	return (0);
+}
+
 void *thread_phil(void *args)
 {
 	t_philo *philo;
@@ -40,6 +53,8 @@ void *thread_phil(void *args)
 		philo->last_meal = current_time;
 		printf("%lld %d is eating\n", philo->last_meal - philo->up->starting_time, philo->id);
 		philo->hm_eat++;
+		if (have_i_eat_enough(philo) == 1)
+        	break;
 		pthread_mutex_unlock(&philo->up->lock);
 		usleep(philo->up->tte * 1000);
 		if (am_i_dead(philo) == 1)

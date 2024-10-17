@@ -34,17 +34,24 @@ void monitoring(t_data *data, pthread_t *threads)
 			if (time - data->phil[i].last_meal > data->ttd)
 			{
 				data->is_dead = 1;
-				printf("%d\n", data->is_dead);
+				printf("%lld %d is dead\n", get_current_time() - data->starting_time, data->phil[i].id);
 				pthread_mutex_unlock(&data->lock);
 				break;
 			}
+
 			pthread_mutex_unlock(&data->lock);
 			i++;
 		}
 		pthread_mutex_lock(&data->lock);
 		if (data->is_dead == 1)
 		{
-			printf("EHHH MORT\n");
+			pthread_mutex_unlock(&data->lock);
+			break;
+		}
+		if (data->eat_enough >= data->philo_nb)
+		{
+			ft_putstr_fd("All philosopher ates enough \n", 1);
+			//				data->is_dead = 1;
 			pthread_mutex_unlock(&data->lock);
 			break;
 		}

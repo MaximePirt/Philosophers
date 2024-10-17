@@ -50,6 +50,7 @@ typedef struct s_data
 	t_fork *forks;
 	pthread_mutex_t lock;
 	int is_dead;
+    int eat_enough;
 
 } t_data;
 
