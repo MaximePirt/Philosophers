@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 00:42:55 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/29 04:12:52 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/06/20 03:02:46 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void *thread_phil(void *args)
 	t_philo *philo;
 	long long current_time;
 	philo = (t_philo *)args;
-	printf("Im here [%d]\n", philo->id);
+	// printf("Im here [%d]\n", philo->id);
 	while (1)
 	{
 
