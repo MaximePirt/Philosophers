@@ -12,11 +12,11 @@
 
 #include "philo.h"
 
-long ft_atol(const char *str)
+long	ft_atol(const char *str)
 {
-	long i;
-	long j;
-	long z;
+	long	i;
+	long	j;
+	long	z;
 
 	i = 0;
 	j = 1;
@@ -36,9 +36,9 @@ long ft_atol(const char *str)
 	return (z);
 }
 
-size_t ft_strlen(const char *str)
+size_t	ft_strlen(const char *str)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (str[i])
@@ -46,11 +46,11 @@ size_t ft_strlen(const char *str)
 	return (i);
 }
 
-int ft_check_only_string(char *res, char *c)
+int	ft_check_only_string(char *res, char *c)
 {
-	int i;
-	int j;
-	size_t check;
+	int		i;
+	int		j;
+	size_t	check;
 
 	check = 0;
 	j = 0;
@@ -72,12 +72,12 @@ int ft_check_only_string(char *res, char *c)
 	return (1);
 }
 
-void ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char *s, int fd)
 {
-	size_t i;
+	size_t	i;
 
 	if (!s || !fd)
-		return;
+		return ;
 	i = 0;
 	while (s[i])
 	{
@@ -86,9 +86,9 @@ void ft_putstr_fd(char *s, int fd)
 	}
 }
 
-long long get_current_time(void)
+long long	get_current_time(void)
 {
-	struct timeval time;
+	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		ft_putstr_fd("gettimeofday error\n", 2);

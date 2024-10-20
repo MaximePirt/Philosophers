@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void *fill_my_philo_args(t_data *data, long *args)
+void	*fill_my_philo_args(t_data *data, long *args)
 {
 	data->starting_time = get_current_time();
 	data->philo_nb = args[1];
@@ -21,15 +21,15 @@ void *fill_my_philo_args(t_data *data, long *args)
 	data->tts = args[4];
 	data->hm_mte = args[5];
 	data->is_dead = 0;
-    data->eat_enough = 0;
+	data->eat_enough = 0;
 	init_threads(data);
 	return (NULL);
 }
 
-void init_forks(t_data *data)
+void	init_forks(t_data *data)
 {
-	int i;
-	t_fork *tmp;
+	int		i;
+	t_fork	*tmp;
 
 	tmp = data->forks;
 	tmp->used = 0;
@@ -49,13 +49,13 @@ void init_forks(t_data *data)
 	}
 }
 
-void init_threads(t_data *data)
+void	init_threads(t_data *data)
 {
-	int i;
-	pthread_t *threads;
+	int			i;
+	pthread_t	*threads;
 
 	if (!init_memory(&threads, data))
-		return;
+		return ;
 	i = 0;
 	pthread_mutex_init(&data->lock, NULL);
 	while (i < data->philo_nb)
@@ -72,7 +72,7 @@ void init_threads(t_data *data)
 	free(threads);
 }
 
-int init_memory(pthread_t **threads, t_data *data)
+int	init_memory(pthread_t **threads, t_data *data)
 {
 	*threads = malloc(sizeof(pthread_t) * data->philo_nb);
 	if (!*threads)

@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-int am_i_dead(t_philo *philo)
+int	am_i_dead(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->up->lock);
 	if (philo->up->is_dead == 1)
@@ -24,12 +24,12 @@ int am_i_dead(t_philo *philo)
 	return (0);
 }
 
-int have_i_eat_enough(t_philo *philo)
+int	have_i_eat_enough(t_philo *philo)
 {
 //	pthread_mutex_lock(&philo->up->lock);
 	if (philo->hm_eat == philo->up->hm_mte)
 	{
-        philo->up->eat_enough++;
+		philo->up->eat_enough++;
 		pthread_mutex_unlock(&philo->up->lock);
 		return (1);
 	}
@@ -37,38 +37,60 @@ int have_i_eat_enough(t_philo *philo)
 	return (0);
 }
 
-void *thread_phil(void *args)
+static int	ft_usleep(size_t milliseconds, t_data *data)
 {
-	t_philo *philo;
-	long long current_time;
+	size_t	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < milliseconds)
+	{
+		pthread_mutex_lock(&data->lock);
+		if (data->is_dead == 1)
+		{
+			pthread_mutex_unlock(&data->lock);
+			break;
+		}
+		pthread_mutex_unlock(&data->lock);
+		usleep(700);
+	}
+	return (0);
+}
+
+void	*thread_phil(void *args)
+{
+	t_philo		*philo;
+	long long	current_time;
+
 	philo = (t_philo *)args;
 	// printf("Im here [%d]\n", philo->id);
 	while (1)
 	{
-
 		if (am_i_dead(philo) == 1)
-			break;
+			break ;
 		pthread_mutex_lock(&philo->up->lock);
 		current_time = get_current_time();
 		philo->last_meal = current_time;
-		printf("%lld %d is eating\n", philo->last_meal - philo->up->starting_time, philo->id);
+		printf("%lld %d is eating\n",
+			philo->last_meal - philo->up->starting_time, philo->id);
 		philo->hm_eat++;
 		if (have_i_eat_enough(philo) == 1)
-        	break;
+			break ;
 		pthread_mutex_unlock(&philo->up->lock);
-		usleep(philo->up->tte * 1000);
+		ft_usleep(philo->up->tte, philo->up);
 		if (am_i_dead(philo) == 1)
 			break;
 		pthread_mutex_lock(&philo->up->lock);
 		current_time = get_current_time();
-		printf("%lld %d is sleeping\n", current_time - philo->up->starting_time, philo->id);
+		printf("%lld %d is sleeping\n",
+			current_time - philo->up->starting_time, philo->id);
 		pthread_mutex_unlock(&philo->up->lock);
-		usleep(philo->up->tts * 1000);
+		ft_usleep(philo->up->tts, philo->up);
 		if (am_i_dead(philo) == 1)
 			break;
 		pthread_mutex_lock(&philo->up->lock);
 		current_time = get_current_time();
-		printf("%lld %d is thinking\n", current_time - philo->up->starting_time, philo->id);
+		printf("%lld %d is thinking\n",
+			current_time - philo->up->starting_time, philo->id);
 		pthread_mutex_unlock(&philo->up->lock);
 	}
 	return (NULL);

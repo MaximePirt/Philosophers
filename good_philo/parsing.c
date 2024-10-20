@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-static char *copy(char *tmp, size_t a, size_t i)
+static char	*copy(char *tmp, size_t a, size_t i)
 {
 	while (tmp[i])
 	{
@@ -24,10 +24,10 @@ static char *copy(char *tmp, size_t a, size_t i)
 	return (tmp);
 }
 
-static char *noptozero(char *tmp)
+static char	*noptozero(char *tmp)
 {
-	size_t i;
-	size_t a;
+	size_t	i;
+	size_t	a;
 
 	i = 0;
 	a = 0;
@@ -48,9 +48,9 @@ static char *noptozero(char *tmp)
 	return (tmp);
 }
 
-static int ft_check_numbers(char **args)
+static int	ft_check_numbers(char **args)
 {
-	size_t i;
+	size_t	i;
 
 	i = 1;
 	while (args[i])
@@ -62,28 +62,43 @@ static int ft_check_numbers(char **args)
 	return (1);
 }
 
-int parsing_args(t_data *data, int argc, char **arg)
+int check_args_validity(char **arg, long *j)
 {
-	int i;
-	long j[6];
 	size_t len;
+	int		i;
 
-	if (ft_check_numbers(arg) == -1)
-		return (0);
 	i = 0;
 	while (arg[i])
 	{
 		arg[i] = noptozero(arg[i]);
 		len = ft_strlen(arg[i]);
 		j[i] = ft_atol(arg[i]);
-		if ((len > 11 || !len) && (j[i] > 2147483647 || j[i] < -2147483648))
-			return (0);
-		if ((len > 11 || !len) || (j[i] > 2147483647 || j[i] < -2147483648))
-			return (0);
+		if (len > 11 || !len || j[i] > 2147483647 || j[i] < -2147483648)
+			return (1);
 		i++;
+	}
+	return (0);
+}
+
+int	parsing_args(t_data *data, int argc, char **arg)
+{
+	long	j[6];
+
+	if (argc < 5 || argc > 6)
+	{
+		write(1, "Error: invalid argument\n", 25);
+		return (1);
+	}
+	if (ft_check_numbers(arg) == -1 || check_args_validity(arg, j))
+	{
+		write(2, "Error: invalid argument\n", 25);
+		return (1);
 	}
 	if (argc == 5)
 		j[5] = -1;
-	fill_my_philo_args(data, j);
-	return (1);
+	if (j[1] == 1)
+		printf("%ld 1 died\n", j[2]);
+	else
+		fill_my_philo_args(data, j);
+	return (0);
 }
