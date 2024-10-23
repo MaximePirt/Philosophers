@@ -12,6 +12,16 @@
 
 #include "philo.h"
 
+static int	ft_usleep(long long milliseconds)
+{
+	long long	start;
+
+	start = get_current_time();
+	while (get_current_time() - start < milliseconds)
+		usleep(100);
+	return (0);
+}
+
 void	free_all(t_data *data)
 {
 	int	i;
@@ -27,10 +37,79 @@ void	free_all(t_data *data)
 	free(data->phil);
 }
 
-void	end_monitoring(t_data *data, pthread_t *threads)
-{
-	int	i;
+//void	end_monitoring(t_data *data, pthread_t *threads)
+//{
+//	int	i;
+//
+//	i = 0;
+//	while (i < data->philo_nb)
+//	{
+//		pthread_join(threads[i], NULL);
+//		i++;
+//	}
+//	free_all(data);
+//}
 
+//void	monitoring(t_data *data, pthread_t *threads)
+//{
+//	int stop;
+//
+//	stop = 0;
+//	while(1)
+//	{
+//		pthread_mutex_lock(&data->lock);
+//		if (data->eat_enough == data->philo_nb || data->is_dead)
+//			stop = 1;
+//		pthread_mutex_unlock(&data->lock);
+//		if (stop)
+//			break ;
+//		usleep(100);
+//	}
+//	pthread_mutex_lock(&data->lock);
+//	printf("All philo are dead [%d], eat enough  [%d]\n",data->is_dead,  data->eat_enough);
+//	pthread_mutex_unlock(&data->lock);
+//	end_monitoring(data, threads);
+//}
+
+void	checking_philo_health(t_data *data)
+{
+	long long	time;
+	int			i;
+
+	i = 0;
+	while (i < data->philo_nb)
+	{
+		pthread_mutex_lock(&data->lock);
+		time = get_current_time();
+		if (time - data->phil[i].last_meal > data->ttd)
+		{
+			data->is_dead = 1;
+			printf("%lld %d is dead\n",
+				   get_current_time() - data->starting_time, data->phil[i].id);
+			pthread_mutex_unlock(&data->lock);
+			break ;
+		}
+		pthread_mutex_unlock(&data->lock);
+		i++;
+	}
+}
+
+void	monitoring(t_data *data, pthread_t *threads)
+{
+	int			i;
+
+	while (1)
+	{
+		ft_usleep(100);
+		checking_philo_health(data);
+		pthread_mutex_lock(&data->lock);
+		if (data->is_dead == 1 || data->eat_enough >= data->philo_nb)
+		{
+			pthread_mutex_unlock(&data->lock);
+			break ;
+		}
+		pthread_mutex_unlock(&data->lock);
+	}
 	i = 0;
 	while (i < data->philo_nb)
 	{
@@ -38,27 +117,6 @@ void	end_monitoring(t_data *data, pthread_t *threads)
 		i++;
 	}
 	free_all(data);
-}
-
-void	monitoring(t_data *data, pthread_t *threads)
-{
-	int stop;
-
-	stop = 0;
-	while(1)
-	{
-		pthread_mutex_lock(&data->lock);
-		if (data->eat_enough == data->philo_nb || data->is_dead)
-			stop = 1;
-		pthread_mutex_unlock(&data->lock);
-		if (stop)
-			break ;
-		usleep(100);
-	}
-	pthread_mutex_lock(&data->lock);
-	printf("All philo are dead [%d], eat enough  [%d]\n",data->is_dead,  data->eat_enough);
-	pthread_mutex_unlock(&data->lock);
-	end_monitoring(data, threads);
 }
 
 

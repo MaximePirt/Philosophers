@@ -85,6 +85,9 @@ int	parsing_args(t_data *data, int argc, char **arg)
 	}
 	if (argc == 5)
 		j[5] = -1;
-	fill_my_philo_args(data, j);
+	if (j[1] == 1)
+		printf("%ld 1 died\n", j[2]);
+	else
+		fill_my_philo_args(data, j);
 	return (1);
 }

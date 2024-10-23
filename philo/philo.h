@@ -65,7 +65,6 @@ void		init_threads(t_data *data);
 //lock and unlock
 int			which_lock(t_philo *philo);
 void		which_unlock(t_philo *philo);
-void		take_forks(t_philo *philo);
 
 // Threads functions
 void		monitoring(t_data *data, pthread_t *threads);
@@ -81,5 +80,9 @@ int			ft_check_only_string(char *res, char *c);
 void		ft_putstr_fd(char *s, int fd);
 long long	get_current_time(void);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+//int			ft_usleep(long long milliseconds);
+char		*ft_itoa(int n);
+void		ft_putnbr(int n);
+
 
 #endif

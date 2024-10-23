@@ -108,3 +108,28 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putnbr(int n)
+{
+	int	nb;
+
+	nb = n;
+
+	if (nb < 0)
+	{
+		nb = nb * -1;
+		write(1, "-", 1);
+	}
+	if (nb > 9)
+	{
+		ft_putnbr(nb / 10);
+		ft_putnbr(nb % 10);
+	}
+	if (nb >= 0 && nb <= 9)
+		ft_putchar_fd(nb + '0', 1);
+}
