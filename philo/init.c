@@ -22,6 +22,7 @@ void	*fill_my_philo_args(t_data *data, long *args)
 	data->hm_mte = args[5];
 	data->is_dead = 0;
 	data->eat_enough = 0;
+	data->terminate = 0;
 
 	init_threads(data);
 	return (NULL);
@@ -29,7 +30,6 @@ void	*fill_my_philo_args(t_data *data, long *args)
 
 void	init_forks(t_philo *philo, int i)
 {
-	philo->forks->used = 0;
 	pthread_mutex_init(&philo->forks->left_fork, NULL);
 	if (i != 0)
 		philo->forks->right_fork = &philo->up->phil[i - 1].forks->left_fork;

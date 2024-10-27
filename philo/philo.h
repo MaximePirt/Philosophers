@@ -24,7 +24,6 @@ typedef struct s_data	t_data;
 
 typedef struct s_fork
 {
-	int				used;
 	pthread_mutex_t	left_fork;
 	pthread_mutex_t	*right_fork;
 }					t_fork;
@@ -50,7 +49,8 @@ typedef struct s_data
 	t_philo			*phil;
 	pthread_mutex_t	lock;
 	int				is_dead;
-	int 			eat_enough;
+	int				eat_enough;
+	int				terminate;
 
 }					t_data;
 
@@ -74,6 +74,7 @@ int			have_i_eat_enough(t_philo *philo);
 void		print_status(t_philo *philo, char *status);
 
 // lib
+int			ft_usleep(useconds_t time);
 long		ft_atol(const char *str);
 size_t		ft_strlen(const char *str);
 int			ft_check_only_string(char *res, char *c);
