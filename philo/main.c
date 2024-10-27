@@ -6,7 +6,7 @@
 /*   By: mpierrot <mpierrot@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 23:50:41 by mpierrot          #+#    #+#             */
-/*   Updated: 2024/05/31 03:57:55 by mpierrot         ###   ########.fr       */
+/*   Updated: 2024/10/27 20:07:39 by mpierrot         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,19 @@ void	free_all(t_data *data)
 	free(data->phil);
 }
 
-//void	end_monitoring(t_data *data, pthread_t *threads)
-//{
-//	int	i;
-//
-//	i = 0;
-//	(void) threads;
-//	while (i < data->philo_nb)
-//	{
-////		pthread_join(threads[i], NULL);
-//		i++;
-//	}
-//	free_all(data);
-//}
+void	end_monitoring(t_data *data, pthread_t *threads)
+{
+	int	i;
+
+	i = 0;
+	(void) threads;
+	while (i < data->philo_nb)
+	{
+		pthread_join(threads[i], NULL);
+		i++;
+	}
+	free_all(data);
+}
 
 int	monitoring_loop(t_data *data, int i)
 {
@@ -82,11 +82,8 @@ void	monitoring(t_data *data, pthread_t *threads)
 		stop = monitoring_loop(data, i);
 	}
 	pthread_mutex_lock(&data->lock);
-	printf("All philo are dead [%d], "
-		"eat enough  [%d]\n", data->is_dead, data->eat_enough);
 	pthread_mutex_unlock(&data->lock);
-//	end_monitoring(data, threads);
-	free_all(data);
+	end_monitoring(data, threads);
 }
 
 int	main(int argc, char **argv)
@@ -98,11 +95,5 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("Error \n", 2);
 		return (1);
 	}
-	printf("starting_time: %lld\n", data.starting_time);
-	printf("philo_nb: %d\n", data.philo_nb);
-	printf("ttd: %d\n", data.ttd);
-	printf("tte: %d\n", data.tte);
-	printf("tts: %d\n", data.tts);
-	printf("hm_mte: %d\n", data.hm_mte);
 	return (0);
 }

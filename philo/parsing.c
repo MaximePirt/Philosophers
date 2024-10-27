@@ -76,8 +76,6 @@ int	parsing_args(t_data *data, int argc, char **arg)
 		arg[i] = noptozero(arg[i]);
 		len = ft_strlen(arg[i]);
 		j[i] = ft_atol(arg[i]);
-		if ((i == 1 && j[i] < 1) || (i == 1 && j[i] > 200))
-			return (0);
 		if ((i < 5 && i > 1) && \
 		(((len > 11 || !len) || j[i] > 2147483647) || j[i] == 0))
 			return (0);
