@@ -42,21 +42,34 @@ void	end_monitoring(t_data *data, pthread_t *threads)
 
 void	monitoring(t_data *data, pthread_t *threads)
 {
-	int stop;
+	int	stop;
+	int	i;
 
 	stop = 0;
-	while(1)
+	while (stop == 0)
 	{
-		pthread_mutex_lock(&data->lock);
-		if (data->eat_enough == data->philo_nb || data->is_dead)
-			stop = 1;
-		pthread_mutex_unlock(&data->lock);
-		if (stop)
-			break ;
-		usleep(100);
+		i = 0;
+		while (stop == 0 && i < data->philo_nb)
+		{
+			pthread_mutex_lock(&data->lock);
+			if (data->phil[i].hm_eat >= data->hm_mte)
+				data->eat_enough++;
+			if (data->eat_enough == data->philo_nb)
+				stop = 1;
+			pthread_mutex_unlock(&data->lock);
+			i++;
+		}
+//		pthread_mutex_lock(&data->lock);
+//		if (data->eat_enough == data->philo_nb || data->is_dead)
+//			stop = 1;
+//		pthread_mutex_unlock(&data->lock);
+//		if (stop)
+//			break ;
+//		ft_usleep(100);
 	}
 	pthread_mutex_lock(&data->lock);
-	printf("All philo are dead [%d], eat enough  [%d]\n",data->is_dead,  data->eat_enough);
+	printf("All philo are dead [%d], "
+		"eat enough  [%d]\n", data->is_dead, data->eat_enough);
 	pthread_mutex_unlock(&data->lock);
 	end_monitoring(data, threads);
 }

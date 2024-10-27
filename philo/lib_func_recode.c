@@ -86,6 +86,16 @@ void	ft_putstr_fd(char *s, int fd)
 	}
 }
 
+int	ft_usleep(useconds_t time)
+{
+	long long	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < time)
+		usleep(time / 10);
+	return (0);
+}
+
 long long	get_current_time(void)
 {
 	struct timeval	time;
