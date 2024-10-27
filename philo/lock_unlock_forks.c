@@ -57,7 +57,7 @@ int	which_lock(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_lock(&philo->up->lock);
-	take_forks(philo);
+	print_status(philo, "has taken a fork");
 	pthread_mutex_unlock(&philo->up->lock);
 	return (0);
 }
@@ -74,10 +74,4 @@ void	which_unlock(t_philo *philo)
 		pthread_mutex_unlock(&philo->forks->left_fork);
 		pthread_mutex_unlock(philo->forks->right_fork);
 	}
-
-}
-void	take_forks(t_philo *philo)
-{
-	print_status(philo, "has taken a fork");
-//	print_status(philo, "has taken a fork");
 }

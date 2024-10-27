@@ -62,10 +62,13 @@ void		*fill_my_philo_args(t_data *data, long *args);
 int			init_memory(pthread_t **threads, t_data *data);
 void		init_threads(t_data *data);
 
+// action
+int			eating_action(t_philo *philo);
+int			sleep_and_think(t_philo *philo);
+
 //lock and unlock
 int			which_lock(t_philo *philo);
 void		which_unlock(t_philo *philo);
-void		take_forks(t_philo *philo);
 
 // Threads functions
 void		monitoring(t_data *data, pthread_t *threads);
@@ -75,6 +78,7 @@ int			have_i_eat_enough(t_philo *philo);
 void		print_status(t_philo *philo, char *status);
 
 // lib
+void		ft_putchar_fd(char c, int fd);
 int			ft_usleep(useconds_t time);
 long		ft_atol(const char *str);
 size_t		ft_strlen(const char *str);

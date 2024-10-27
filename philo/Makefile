@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC_F	= 	init.c thread.c lib_func_recode.c main.c parsing.c lock_unlock_forks.c
+SRC_F	= 	init.c thread.c lib_func_recode.c main.c parsing.c lock_unlock_forks.c number_lib.c action.c
 SRC_D	= src/
 OBJ_D = objs
 OBJ_F = $(SRC_F:%.c=$(OBJ_D)/%.o)
