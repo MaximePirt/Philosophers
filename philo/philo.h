@@ -50,6 +50,7 @@ typedef struct s_data
 	pthread_mutex_t	lock;
 	int				is_dead;
 	int				eat_enough;
+	int				terminate;
 
 }					t_data;
 

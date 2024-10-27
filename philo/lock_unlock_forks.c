@@ -51,14 +51,14 @@ int	which_lock(t_philo *philo)
 		pthread_mutex_lock(philo->forks->right_fork);
 		pthread_mutex_lock(&philo->forks->left_fork);
 	}
-	pthread_mutex_lock(&philo->up->lock);
-	take_forks(philo);
-	pthread_mutex_unlock(&philo->up->lock);
 	if (am_i_dead(philo))
 	{
 		which_unlock(philo);
 		return (1);
 	}
+	pthread_mutex_lock(&philo->up->lock);
+	take_forks(philo);
+	pthread_mutex_unlock(&philo->up->lock);
 	return (0);
 }
 
