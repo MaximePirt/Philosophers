@@ -27,24 +27,25 @@ void	free_all(t_data *data)
 	free(data->phil);
 }
 
-void	end_monitoring(t_data *data, pthread_t *threads)
-{
-	int	i;
-
-	i = 0;
-	(void) threads;
-	while (i < data->philo_nb)
-	{
-//		pthread_join(threads[i], NULL);
-		i++;
-	}
-	free_all(data);
-}
+//void	end_monitoring(t_data *data, pthread_t *threads)
+//{
+//	int	i;
+//
+//	i = 0;
+//	(void) threads;
+//	while (i < data->philo_nb)
+//	{
+////		pthread_join(threads[i], NULL);
+//		i++;
+//	}
+//	free_all(data);
+//}
 
 void	monitoring(t_data *data, pthread_t *threads)
 {
 	int	stop;
 	int	i;
+	(void) threads;
 
 	stop = 0;
 	while (stop == 0)
@@ -63,7 +64,6 @@ void	monitoring(t_data *data, pthread_t *threads)
 				data->eat_enough++;
 			if (data->eat_enough >= data->philo_nb)
 			{
-//				printf("its finish, everybody eat enough\n");
 				data->terminate = 1;
 				stop = 1;
 			}
@@ -76,7 +76,8 @@ void	monitoring(t_data *data, pthread_t *threads)
 	printf("All philo are dead [%d], "
 		"eat enough  [%d]\n", data->is_dead, data->eat_enough);
 	pthread_mutex_unlock(&data->lock);
-	end_monitoring(data, threads);
+//	end_monitoring(data, threads);
+	free_all(data);
 }
 
 
