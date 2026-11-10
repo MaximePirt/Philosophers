@@ -1,0 +1,18 @@
+title: Philosophers
+origin: "42"
+domains: [systems]
+summary:
+  fr: 42 • C / Threads
+  en: 42 • C / Threads
+description:
+  fr: >
+    Implémentation en C du problème des philosophes mangeurs avec des
+    threads POSIX et des mutex. Chaque philosophe tourne dans son propre
+    thread et un thread de monitoring détecte la famine en surveillant
+    l'heure du dernier repas de chacun.
+  en: >
+    C implementation of the dining philosophers problem using POSIX
+    threads and mutexes. Each philosopher runs in its own thread, and a
+    monitoring thread detects starvation by tracking each philosopher's
+    last meal time.
+stack: [C, pthread, Makefile]
